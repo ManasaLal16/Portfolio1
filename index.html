@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manasa Lal — ML & Frontend Developer</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+
+  <style>
+    /* ------------------ Base ------------------ */
+    :root{
+      --bg: #0b0b0c;
+      --panel: #151517;
+      --text: #eaeaea;
+      --muted: #a9a9a9;
+      --brand: #ff1a1a;
+      --brand2:#ff3d3d;
+      --glow: rgba(255, 26, 26, 0.45);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{scroll-behavior:smooth;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+
+    /* ------------------ Header / Nav ------------------ */
+    header{
+      position:fixed;inset:0 0 auto 0;z-index:50;
+      background:rgba(10,10,12,0.6);backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .nav{
+      max-width:1100px;margin:0 auto;
+      padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{
+      font-size:1.1rem;font-weight:800;letter-spacing:.5px;
+      text-transform:uppercase;
+      text-shadow:0 0 8px var(--glow);
+    }
+    .logo .hi{color:var(--brand)}
+    .nav ul{display:flex;gap:22px;list-style:none}
+    .nav a{
+      font-weight:700;position:relative;opacity:.9
+    }
+    .nav a::after{
+      content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--brand);transition:.25s;
+      box-shadow:0 0 10px var(--glow);
+    }
+    .nav a:hover::after,.nav a.active::after{width:100%}
+    .nav a.active{color:var(--brand)}
+
+    /* ------------------ Sections ------------------ */
+    section{max-width:1100px;margin:0 auto;padding:110px 20px 80px}
+    .section-title{
+      font-size:1.9rem;margin-bottom:18px;color:var(--brand);letter-spacing:1px;text-transform:uppercase
+    }
+    .muted{color:var(--muted)}
+
+    /* ------------------ Hero ------------------ */
+    .hero{
+      min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;gap:38px;align-items:center
+    }
+    .hero h1{font-size:2.6rem;line-height:1.15}
+    .hero .role{margin-top:10px;font-size:1.2rem;color:var(--brand);font-weight:700;letter-spacing:.3px}
+    .hero p{margin-top:14px;max-width:520px;color:#d9d9d9}
+    .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:11px 18px;border-radius:30px;font-weight:800;
+      border:2px solid var(--brand);background:var(--brand);color:#fff;transition:.25s;
+      box-shadow:0 0 16px var(--glow);
+    }
+    .btn:hover{background:transparent;color:var(--brand)}
+    .btn.ghost{background:transparent;color:var(--brand)}
+    .btn.ghost:hover{background:var(--brand);color:#0c0c0c}
+
+    /* Square animated photo frame */
+    .frame{
+      width:320px;height:320px;position:relative;margin-inline:auto;
+      border-radius:22px;overflow:hidden;
+    }
+    .frame::before{
+      content:"";position:absolute;inset:-3px;
+      background:conic-gradient(from var(--angle), #ff8080, #ff1a1a, #ffb3b3, #ff3d3d, #ff8080);
+      animation:spin 5s linear infinite;filter:blur(6px);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;mask-composite: exclude;
+      padding:3px;border-radius:24px;
+    }
+    .pfp{
+      position:absolute;inset:6px;border-radius:18px;overflow:hidden;background:#0f0f11;
+      box-shadow:0 0 24px var(--glow) inset, 0 0 20px var(--glow);
+      animation:float 4s ease-in-out infinite;
+    }
+    .pfp img{width:100%;height:100%;object-fit:cover}
+
+    @property --angle{syntax:"<angle>";initial-value:0deg;inherits:false}
+    @keyframes spin{to{--angle:360deg}}
+    @keyframes float{50%{transform:translateY(-8px)}}
+
+    /* ------------------ Grids / Cards ------------------ */
+    .grid{display:grid;gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}.grid.cols-3{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}}
+
+    .card{
+      background:linear-gradient(180deg, #17171a, #121214);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;padding:18px;position:relative;overflow:hidden;
+      transition:transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 0 22px var(--glow);
+      border-color:rgba(255,26,26,.45);
+    }
+    .card .title{font-weight:800;margin-bottom:6px}
+    .card .desc{color:#cfcfcf;font-size:.98rem}
+
+    /* shimmer sweep */
+    .card::after{
+      content:"";position:absolute;inset:0;pointer-events:none;translate:-120% 0;
+      background:linear-gradient(120deg, transparent, rgba(255,255,255,.07), transparent);
+      transition:translate .5s;
+    }
+    .card:hover::after{translate:120% 0}
+
+    /* ------------------ Skills ------------------ */
+    .skills .chip{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.08);
+      background:#161618;box-shadow:inset 0 0 12px rgba(255,26,26,.12);
+      font-weight:700;color:#e8e8e8;margin:6px 6px 0 0
+    }
+    .skills h3{color:var(--brand);margin-bottom:10px}
+
+    /* ------------------ Certificates ------------------ */
+    .cert-card{
+      padding:0;overflow:hidden
+    }
+    .cert-thumb{aspect-ratio:16/10;object-fit:cover;width:100%}
+    .cert-body{padding:14px}
+    .cert-actions{display:flex;gap:10px;margin-top:10px}
+    .mini{padding:8px 12px;border-radius:999px;border:1.5px solid var(--brand);font-weight:800}
+    .mini:hover{background:var(--brand);color:#0c0c0c}
+
+    /* ------------------ Footer ------------------ */
+    footer{padding:30px 20px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:var(--muted)}
+
+    /* ------------------ Scroll / Stagger Animations ------------------ */
+    .reveal{opacity:0;transform:translateY(40px);filter:blur(3px)}
+    .reveal.show{opacity:1;transform:none;filter:none;transition:opacity .7s ease, transform .7s ease, filter .7s ease}
+    .stagger > *{opacity:0;transform:translateY(20px)}
+    .stagger.show > *{animation:staggerIn .6s ease forwards}
+    .stagger.show > *:nth-child(1){animation-delay:.05s}
+    .stagger.show > *:nth-child(2){animation-delay:.12s}
+    .stagger.show > *:nth-child(3){animation-delay:.18s}
+    .stagger.show > *:nth-child(4){animation-delay:.24s}
+    .stagger.show > *:nth-child(5){animation-delay:.30s}
+    .stagger.show > *:nth-child(6){animation-delay:.36s}
+    @keyframes staggerIn{to{opacity:1;transform:none}}
+  </style>
+</head>
+
+<body>
+  <!-- ================== NAV ================== -->
+  <header>
+    <nav class="nav">
+      <div class="logo"><span class="hi">Manasa</span> Lal</div>
+      <ul>
+        <li><a class="link active" href="#home">Home</a></li>
+        <li><a class="link" href="#about">About</a></li>
+        <li><a class="link" href="#projects">Projects</a></li>
+        <li><a class="link" href="#Internships">Internships</a></li>
+        <li><a class="link" href="#skills">Skills</a></li>
+        <li><a class="link" href="#certs">Certificates</a></li>
+        <li><a class="link" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================== HERO ================== -->
+  <section id="home" class="hero reveal">
+    <div>
+      <h1>Machine Learning <span class="muted">&</span> Frontend Developer</h1>
+      <div class="role">B.tech CSE Student • SRM IST, Chennai • CGPA 8.53</div>
+      <p>
+        I build <b>intelligent, user-friendly</b> web apps — blending
+        <b>Python & Machine Learning</b> with modern <b>Frontend</b> (React/JS).
+        I love turning data & design into delightful product experiences.
+      </p>
+
+      <div class="cta">
+       
+  <a href="#contact" class="btn"><i class='bx bxs-message-dots'></i> Hire Me</a>
+
+  <a href="Manasa lal Resume.pdf" target="_blank" class="btn ghost"><i class='bx bx-file'></i> View Resume</a>
+</div>>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="pfp">
+        <!-- Replace with your image -->
+        <img src="image0.jpeg" alt="Manasa Lal"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== ABOUT ================== -->
+  <section id="about" class="reveal">
+    <h2 class="section-title">About Me</h2>
+    <p>
+      I’m a Computer Science student at <b>SRM IST, Chennai</b> (CGPA <b>8.27</b>) who enjoys building
+      <b>ML-powered features</b> and <b>clean, responsive UIs</b>. I’ve interned as a Graphic Designer
+      (ADM Foundation), and Web Developer (CDAC Tidel Park & SkillCraft Technology). I actively
+      contribute to campus tech events — Head of Design for <b>Gravity 3.0</b>, organizer for
+      <b>ACE Hackathon</b>, and a regular volunteer for literary & outreach initiatives.
+    </p>
+  </section>
+
+  <!-- ================== PROJECTS ================== -->
+<section id="projects" class="reveal">
+  <h2 class="section-title">Projects</h2>
+
+  <div class="grid cols-3 stagger">
+    <article class="card">
+      <div class="title">🎯 Campus Recruitment Prediction</div>
+      <p class="desc">Python + ML to predict student placements from academic & activity features.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Library Management</div>
+      <p class="desc">Clean CRUD flows, role management, and search — designed for simplicity.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Recipe Page</div>
+      <p class="desc">Responsive static site with neat UI, filters and accessible layout.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Full-Stack Mini Apps</div>
+      <p class="desc">Frontend (HTML/CSS/JS/React) + Backend (FastAPI) with MongoDB/SQL practice.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Whitespace Tool (FastAPI)</div>
+      <p class="desc">Text utility to detect & strike whitespace patterns for document cleanup.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">ML Playgrounds</div>
+      <p class="desc">Small notebooks exploring preprocessing, metrics and model baselines.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Real-Time Face Mask and Emotion Detection</div>
+      <p class="desc">Built a real-time system using image processing and ML to detect face masks and recognize facial emotions via webcam input.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Voiceprint Biometric Authentication under Stress Conditions</div>
+      <p class="desc">A project on Voiceprint Biometric Authentication using speech recognition, NLP, and ML to ensure secure and reliable identification even under stress conditions.</p>
+    </article>
+
+    <article class="card">
+      <div class="title">Machine Learning based Intrusion Detection Systems for WSNs</div>
+      <p class="desc">A project on Machine Learning-based Intrusion Detection System for WSNs to detect and prevent malicious activities, ensuring secure and energy efficient communication.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ================== INTERNSHIPS ================== -->
+<section id="internships" class="reveal">
+  <h2 class="section-title">💼 Internships</h2>
+  <div class="grid cols-3">
+
+    <!-- CDAC Internship -->
+    <div class="card">
+      <img src="cdac-logo.jpg" alt="CDAC Logo" style="width:100%;height:180px;object-fit:cover;border-radius:12px;">
+      <div class="title">Web Developer Intern</div>
+      <p class="desc">CDAC Tidel Park, Thiruvanmiyur • Chennai</p>
+      <div class="cert-actions">
+        <a href="cdac-cert.jpg" target="_blank" class="mini">View Certificate</a>
+      </div>
+    </div>
+
+    <!-- ADM Foundation Internship -->
+    <div class="card">
+      <img src="adm-logo.jpg" alt="ADM Logo" style="width:100%;height:180px;object-fit:cover;border-radius:12px;">
+      <div class="title">Graphic Designer Intern</div>
+      <p class="desc">ADM Foundation • Intern of the Month 🎖️</p>
+      <div class="cert-actions">
+        <a href="adm-cert.jpg" target="_blank" class="mini">View Certificate</a>
+      </div>
+    </div>
+
+    <!-- SkillCraft Internship -->
+    <div class="card">
+      <img src="skillcraft-logo.jpg" alt="SkillCraft Logo" style="width:100%;height:180px;object-fit:cover;border-radius:12px;">
+      <div class="title">Web Developer Intern</div>
+      <p class="desc">SkillCraft Technology • Chennai</p>
+      <div class="cert-actions">
+        <a href="skillcraft-cert.jpg" target="_blank" class="mini">View Certificate</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+  <!-- ================== SKILLS ================== -->
+  <section id="skills" class="reveal">
+    <h2 class="section-title">Skills & Achievements</h2>
+
+    <div class="grid cols-3 stagger skills">
+      <!-- Hard Skills -->
+      <article class="card">
+        <h3>💻 Hard Skills</h3>
+        <div class="chips">
+          <span class="chip"><i class='bx bxl-python'></i> Python</span>
+          <span class="chip"><i class='bx bx-brain'></i> Machine Learning (Basics)</span>
+          <span class="chip"><i class='bx bxl-javascript'></i> JavaScript</span>
+          <span class="chip"><i class='bx bxl-react'></i> React</span>
+          <span class="chip"><i class='bx bxs-zap'></i> FastAPI</span>
+          <span class="chip"><i class='bx bxs-data'></i> SQL</span>
+          <span class="chip"><i class='bx bxl-mongodb'></i> MongoDB</span>
+          <span class="chip"><i class='bx bx-devices'></i> Frontend Dev</span>
+          <span class="chip"><i class='bx bx-image'></i> Graphic Design</span>
+          <span class="chip"><i class='bx bx-code'></i> C++</span>
+        </div>
+      </article>
+
+
+      <!-- Soft Skills -->
+      <article class="card">
+        <h3>🌸 Soft Skills</h3>
+        <div class="chips">
+          <span class="chip"><i class='bx bx-group'></i> Teamwork</span>
+          <span class="chip"><i class='bx bx-chat'></i> Communication</span>
+          <span class="chip"><i class='bx bx-bulb'></i> Creativity</span>
+          <span class="chip"><i class='bx bx-time'></i> Time Management</span>
+          <span class="chip"><i class='bx bx-analyse'></i> Problem Solving</span>
+          <span class="chip"><i class='bx bx-crown'></i> Leadership</span>
+        </div>
+      </article>
+
+      <!-- Extra Curricular -->
+      <article class="card">
+        <h3>🎭 Extra-Curricular</h3>
+        <ul class="desc" style="line-height:1.8;margin-top:6px">
+          <li>Head of Design — Gravity 3.0</li>
+          <li>ACEHACKS ( ACE Club) — Hospitality Head</li>
+          <li>ACE Club — Joint Head of Outreach (2024-2025)</li>
+<li>ACE Club — Head of Outreach (2025-Present)</li>
+
+<li>SRMVMUN — USG of PR & Outreach (2024-2025)</li>
+<li>SRMVMUN — USG of Hospitality (2025-Present)</li>
+        </ul>
+      </article>
+
+  
+
+  <!-- ================== CERTIFICATES & BADGES ================== -->
+<section id="certificates" class="reveal">
+  <h2 class="section-title">📜 Certificates & Badges</h2>
+  <div class="grid cols-3">
+    
+    <!-- NPTEL Machine Learning -->
+    <div class="card">
+      <img src="ml-nptel.jpg" alt="NPTEL ML Certificate">
+      <div class="title">Introduction to Machine Learning</div>
+      <p class="desc">NPTEL • 2024 | Certificate</p>
+    </div>
+
+    <!-- MongoDB -->
+    <div class="card">
+      <img src="mongodb.jpg" alt="MongoDB Certificate">
+      <div class="title">Introduction to MongoDB</div>
+      <p class="desc">MongoDB • 2023 | Certificate</p>
+    </div>
+
+    <!-- Microsoft Power BI -->
+    <div class="card">
+      <img src="powerbi.jpg" alt="Power BI Certificate">
+      <div class="title">Microsoft Power BI</div>
+      <p class="desc">Microsoft • 2024 | Certificate</p>
+    </div>
+
+    <!-- Microsoft SQL -->
+    <div class="card">
+      <img src="sql.jpg" alt="SQL Certificate">
+      <div class="title">Microsoft SQL</div>
+      <p class="desc">Microsoft • 2024 | Certificate</p>
+    </div>
+
+    <!-- Accenture Web Analytics -->
+    <div class="card">
+      <img src="accenture.jpg" alt="Accenture Web Analytics Certificate">
+      <div class="title">Web Analytics</div>
+      <p class="desc">Accenture • 2024 | Certificate</p>
+    </div>
+
+    <!-- AWS -->
+    <div class="card">
+      <img src="aws.jpg" alt="AWS Forage - Solutions Architecture job simulation">
+      <div class="title">AWS Forage - Solutions Architecture job simulation</div>
+      <p class="desc">HackerRank • Badge</p>
+    </div>
+
+    <!-- HackerRank C++ Badge -->
+    <div class="card">
+      <img src="hackerrank-cpp.jpg" alt="Hackerrank C++ Badge">
+      <div class="title">C++ Bronze Badge</div>
+      <p class="desc">HackerRank • Badge</p>
+    </div>
+
+     <!-- UI-UX -->
+    <div class="card">
+      <img src="ui.jpg" alt="UI/UX">
+      <div class="title">UI/UX</div>
+      <p class="desc">HackerRank • Badge</p>
+    </div>
+
+  </div>
+</section>
+
+
+
+  <!-- ================== CONTACT ================== -->
+<!-- ================== CONTACT ================== -->
+<section id="contact" class="reveal">
+  <h2 class="section-title">Contact</h2>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="title">Let’s build something smart & beautiful.</div>
+      <p class="desc">Feel free to reach out for opportunities, collaborations, or a quick chat.</p>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+        <a class="mini" href="mailto:manasalal04@gmail.com"><i class='bx bx-mail-send'></i> manasalal04@gmail.com</a>
+        <a class="mini" href="https://www.linkedin.com/in/manasa-lal-6b3799274/" target="_blank"><i class='bx bxl-linkedin-square'></i> LinkedIn</a>
+        <a class="mini" href="https://github.com/ManasaLal16" target="_blank"><i class='bx bxl-github'></i> GitHub</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="title">Location</div>
+      <p class="desc">Chennai, India</p>
+      <div class="title" style="margin-top:16px">Open to</div>
+      <p class="desc">Internships • Freelance • Full-time (Frontend / ML)</p>
+    </div>
+  </div>
+</section>
+
+
+  <footer>© 2025 • Manasa Lal • All Rights Reserved.</footer>
+
+  <!-- ================== JS: active link + reveal & stagger ================== -->
+  <script>
+    // Smooth-scroll active link highlight
+    const links = document.querySelectorAll(".link");
+    const sections = [...document.querySelectorAll("section")];
+
+    const activateLink = () => {
+      const scrollPos = window.scrollY + 120;
+      for (const a of links) a.classList.remove("active");
+      for (const sec of sections) {
+        if (scrollPos >= sec.offsetTop && scrollPos < sec.offsetTop + sec.offsetHeight) {
+          const id = "#" + sec.id;
+          const active = document.querySelector(`.link[href="${id}"]`);
+          if (active) active.classList.add("active");
+        }
+      }
+    };
+    window.addEventListener("scroll", activateLink);
+    activateLink();
+
+    // Reveal on scroll + stagger groups
+    const io = new IntersectionObserver((entries)=>{
+      for (const e of entries){
+        if (e.isIntersecting){
+          e.target.classList.add("show");
+          io.unobserve(e.target);
+        }
+      }
+    }, {threshold:0.12});
+
+    document.querySelectorAll(".reveal, .stagger").forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
